@@ -1,0 +1,577 @@
+// ============================
+// MOBILE MENU
+// ============================
+
+const menuBtn = document.querySelector(".menu-btn");
+const navMenu = document.querySelector(".nav-menu");
+
+if(menuBtn){
+    menuBtn.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+    });
+}
+
+// ============================
+// STICKY HEADER
+// ============================
+
+window.addEventListener("scroll", () => {
+    const header = document.querySelector("header");
+
+    if(window.scrollY > 50){
+        header.classList.add("sticky");
+    }else{
+        header.classList.remove("sticky");
+    }
+});
+
+// ============================
+// BACK TO TOP BUTTON
+// ============================
+
+const topBtn = document.getElementById("topBtn");
+
+window.addEventListener("scroll", () => {
+
+    if(!topBtn) return;
+
+    if(window.scrollY > 400){
+        topBtn.style.display = "block";
+    }else{
+        topBtn.style.display = "none";
+    }
+
+});
+
+if(topBtn){
+
+topBtn.addEventListener("click", () => {
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+});
+
+}
+
+// ============================
+// COUNTER
+// ============================
+
+const counters = document.querySelectorAll(".counter");
+
+counters.forEach(counter=>{
+
+counter.innerText="0";
+
+const updateCounter=()=>{
+
+const target=+counter.getAttribute("data-target");
+
+const count=+counter.innerText;
+
+const increment=target/200;
+
+if(count<target){
+
+counter.innerText=Math.ceil(count+increment);
+
+setTimeout(updateCounter,20);
+
+}else{
+
+counter.innerText=target;
+
+}
+
+};
+
+updateCounter();
+
+});
+
+// ============================
+// DARK MODE
+// ============================
+
+const darkBtn=document.getElementById("darkMode");
+
+if(darkBtn){
+
+darkBtn.addEventListener("click",()=>{
+
+document.body.classList.toggle("dark");
+
+});
+
+}
+// ============================
+// HERO SLIDER
+// ============================
+
+const slides = document.querySelectorAll(".hero-slide");
+let currentSlide = 0;
+
+function showSlide(index) {
+
+    slides.forEach((slide) => {
+        slide.style.display = "none";
+    });
+
+    if (slides.length > 0) {
+        slides[index].style.display = "block";
+    }
+}
+
+function nextSlide() {
+
+    if (slides.length === 0) return;
+
+    currentSlide++;
+
+    if (currentSlide >= slides.length) {
+        currentSlide = 0;
+    }
+
+    showSlide(currentSlide);
+}
+
+showSlide(currentSlide);
+
+setInterval(nextSlide, 5000);
+
+// ============================
+// FORM VALIDATION
+// ============================
+
+const form = document.querySelector("#appointmentForm");
+
+if (form) {
+
+form.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+const name = document.querySelector("#name").value.trim();
+
+const email = document.querySelector("#email").value.trim();
+
+const phone = document.querySelector("#phone").value.trim();
+
+if(name === ""){
+
+alert("Please enter your name.");
+
+return;
+
+}
+
+if(email === ""){
+
+alert("Please enter your email.");
+
+return;
+
+}
+
+if(phone.length < 9){
+
+alert("Invalid phone number.");
+
+return;
+
+}
+
+alert("Appointment booked successfully!");
+
+form.reset();
+
+});
+
+}
+
+// ============================
+// LOADING SCREEN
+// ============================
+
+window.addEventListener("load",()=>{
+
+const loader=document.querySelector(".loader");
+
+if(loader){
+
+loader.style.display="none";
+
+}
+
+});
+
+// ============================
+// SCROLL ANIMATION
+// ============================
+
+const hidden=document.querySelectorAll(".hidden");
+
+const observer=new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add("show");
+
+}
+
+});
+
+});
+
+hidden.forEach(el=>observer.observe(el));
+
+// ============================
+// TOAST MESSAGE
+// ============================
+
+function showToast(message){
+
+const toast=document.createElement("div");
+
+toast.className="toast";
+
+toast.innerText=message;
+
+document.body.appendChild(toast);
+
+setTimeout(()=>{
+
+toast.classList.add("visible");
+
+},100);
+
+setTimeout(()=>{
+
+toast.remove();
+
+},3000);
+
+}
+
+// Example
+// showToast("Welcome to our Hospital!");
+// ============================
+// FAQ ACCORDION
+// ============================
+
+const faqItems = document.querySelectorAll(".faq-item");
+
+faqItems.forEach(item => {
+
+    const question = item.querySelector(".faq-question");
+
+    question.addEventListener("click", () => {
+
+        item.classList.toggle("active");
+
+    });
+
+});
+
+// ============================
+// DOCTOR SEARCH
+// ============================
+
+const searchInput = document.getElementById("doctorSearch");
+
+if(searchInput){
+
+searchInput.addEventListener("keyup", function(){
+
+const value = this.value.toLowerCase();
+
+const doctors = document.querySelectorAll(".doctor-card");
+
+doctors.forEach(card=>{
+
+const text = card.innerText.toLowerCase();
+
+if(text.includes(value)){
+
+card.style.display="block";
+
+}else{
+
+card.style.display="none";
+
+}
+
+});
+
+});
+
+}
+
+// ============================
+// LIVE CLOCK
+// ============================
+
+function updateClock(){
+
+const clock=document.getElementById("clock");
+
+if(!clock) return;
+
+const now=new Date();
+
+clock.innerHTML=now.toLocaleTimeString();
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+// ============================
+// LOCAL STORAGE (THEME)
+// ============================
+
+const themeBtn=document.getElementById("darkMode");
+
+if(localStorage.getItem("theme")==="dark"){
+
+document.body.classList.add("dark");
+
+}
+
+if(themeBtn){
+
+themeBtn.addEventListener("click",()=>{
+
+if(document.body.classList.contains("dark")){
+
+localStorage.setItem("theme","dark");
+
+}else{
+
+localStorage.setItem("theme","light");
+
+}
+
+});
+
+}
+
+// ============================
+// SCROLL PROGRESS BAR
+// ============================
+
+window.addEventListener("scroll",()=>{
+
+const progress=document.getElementById("progressBar");
+
+if(!progress) return;
+
+const totalHeight=document.documentElement.scrollHeight-window.innerHeight;
+
+const progressHeight=(window.pageYOffset/totalHeight)*100;
+
+progress.style.width=progressHeight+"%";
+
+});
+
+// ============================
+// ACTIVE NAVIGATION LINK
+// ============================
+
+const sections=document.querySelectorAll("section");
+
+const navLinks=document.querySelectorAll("nav ul li a");
+
+window.addEventListener("scroll",()=>{
+
+let current="";
+
+sections.forEach(section=>{
+
+const sectionTop=section.offsetTop-100;
+
+if(pageYOffset>=sectionTop){
+
+current=section.getAttribute("id");
+
+}
+
+});
+
+navLinks.forEach(link=>{
+
+link.classList.remove("active");
+
+if(link.getAttribute("href")==="#"+current){
+
+link.classList.add("active");
+
+}
+
+});
+
+});
+// ============================
+// TESTIMONIAL SLIDER
+// ============================
+
+const testimonials = document.querySelectorAll(".testimonial");
+let testimonialIndex = 0;
+
+function showTestimonial() {
+
+    testimonials.forEach(item => {
+        item.style.display = "none";
+    });
+
+    if (testimonials.length > 0) {
+        testimonials[testimonialIndex].style.display = "block";
+    }
+}
+
+showTestimonial();
+
+setInterval(() => {
+
+    testimonialIndex++;
+
+    if (testimonialIndex >= testimonials.length) {
+        testimonialIndex = 0;
+    }
+
+    showTestimonial();
+
+}, 4000);
+
+// ============================
+// EMAIL VALIDATION
+// ============================
+
+const subscribeForm = document.getElementById("subscribeForm");
+
+if (subscribeForm) {
+
+    subscribeForm.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        const email = document.getElementById("subscribeEmail").value.trim();
+
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!pattern.test(email)) {
+
+            alert("Please enter a valid email.");
+
+            return;
+
+        }
+
+        alert("Thank you for subscribing!");
+
+        subscribeForm.reset();
+
+    });
+
+}
+
+// ============================
+// RANDOM HEALTH TIPS
+// ============================
+
+const tips = [
+
+"Drink at least 8 glasses of water every day.",
+
+"Exercise for 30 minutes daily.",
+
+"Eat more fruits and vegetables.",
+
+"Sleep 7 to 8 hours every night.",
+
+"Wash your hands regularly.",
+
+"Avoid too much sugar and salt.",
+
+"Take regular health checkups."
+
+];
+
+const healthTip = document.getElementById("healthTip");
+
+if (healthTip) {
+
+    const random = Math.floor(Math.random() * tips.length);
+
+    healthTip.innerText = tips[random];
+
+}
+
+// ============================
+// CURRENT YEAR
+// ============================
+
+const year = document.getElementById("year");
+
+if (year) {
+
+    year.innerText = new Date().getFullYear();
+
+}
+
+// ============================
+// BUTTON RIPPLE EFFECT
+// ============================
+
+const buttons = document.querySelectorAll(".btn");
+
+buttons.forEach(button => {
+
+    button.addEventListener("click", function (e) {
+
+        const circle = document.createElement("span");
+
+        circle.classList.add("ripple");
+
+        const x = e.clientX - this.offsetLeft;
+
+        const y = e.clientY - this.offsetTop;
+
+        circle.style.left = x + "px";
+
+        circle.style.top = y + "px";
+
+        this.appendChild(circle);
+
+        setTimeout(() => {
+
+            circle.remove();
+
+        }, 600);
+
+    });
+
+});
+
+// ============================
+// WELCOME MESSAGE
+// ============================
+
+window.addEventListener("load", () => {
+
+    setTimeout(() => {
+
+        showToast("Welcome to Our Hospital Website!");
+
+    }, 1000);
+
+});
